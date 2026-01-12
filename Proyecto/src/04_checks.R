@@ -3,7 +3,7 @@
 # Objetivo: Suite de pruebas de integridad, consistencia y dominio para garantizar un proyecto reproducible y válido.
 
 # Limpiar entorno de checks previos
-rm(list = ls())
+# rm(list = ls()) # Comentado para no borrar variables del script maestro (start_time)
 
 # Librerías
 if (!require(readr)) install.packages("readr")

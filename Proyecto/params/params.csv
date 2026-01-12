@@ -1,0 +1,11 @@
+parametro,valor,unidad,descripcion
+Tasa_Llegada_Global,221.33,eventos/dia,Promedio diario de alertas registradas
+Tasa_Llegada_Madrugada,6.9,eventos/hora,Tasa promedio horaria en Madrugada
+Tasa_Llegada_Mañana,13.11,eventos/hora,Tasa promedio horaria en Mañana
+Tasa_Llegada_Noche,5.65,eventos/hora,Tasa promedio horaria en Noche
+Tasa_Llegada_Tarde,11.22,eventos/hora,Tasa promedio horaria en Tarde
+Velocidad_Promedio,104.08,km/h,Media aritmética de velocidad
+Velocidad_Mediana,103,km/h,Mediana de velocidad
+Velocidad_DesvStd,4.7,km/h,Desviación estándar de velocidad
+Prob_Tipo_CUARTA_CLASE,0.9473,probabilidad,Probabilidad de exceso tipo CUARTA_CLASE
+Prob_Tipo_PRIMERA_CLASE,0.0527,probabilidad,Probabilidad de exceso tipo PRIMERA_CLASE

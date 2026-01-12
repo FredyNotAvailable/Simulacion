@@ -3,6 +3,11 @@
 # Objetivo: Generar gráficos exploratorios y guardarlos en /figures.
 
 # 1. Cargar librerías
+if (!require(readr)) install.packages("readr")
+if (!require(ggplot2)) install.packages("ggplot2")
+if (!require(dplyr)) install.packages("dplyr")
+if (!require(lubridate)) install.packages("lubridate")
+
 library(readr)
 library(ggplot2)
 library(dplyr)
@@ -20,14 +25,8 @@ df <- read_csv(clean_path, show_col_types = FALSE)
 df <- df %>%
   mutate(
     franja_horaria = factor(franja_horaria, levels = c("Madrugada", "Mañana", "Tarde", "Noche")),
-    dia_semana = factor(dia_semana, levels = c("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")) # Ajustar niveles según locale
+    dia_semana = factor(dia_semana, levels = c("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")) 
   )
-  
-# Nota: Si el locale de fecha generó nombres en inglés o diferente, ajustar niveles.
-# Verificamos niveles reales en dia_semana si es character
-if(is.character(df$dia_semana)){
-    df$dia_semana <- as.factor(df$dia_semana)
-}
 
 # 3. Gráficos
 
@@ -48,9 +47,15 @@ p1 <- df %>%
 ggsave("figures/llegadas_tiempo.png", plot = p1, width = 8, height = 5)
 
 # B. Distribución de Velocidad
+# Pre-calcular factor de escala para densidad
+n_bins <- 30
+rango_vel <- range(df$VELOCIDAD, na.rm = TRUE)
+bin_width <- diff(rango_vel) / n_bins
+n_obs <- nrow(df)
+
 p2 <- ggplot(df, aes(x = VELOCIDAD)) +
-  geom_histogram(bins = 30, fill = "firebrick", color = "white", alpha = 0.8) +
-  geom_density(aes(y = ..count.. * (diff(range(VELOCIDAD))/30)), color = "black", size = 1) +
+  geom_histogram(bins = n_bins, fill = "firebrick", color = "white", alpha = 0.8) +
+  geom_density(aes(y = after_stat(density) * n_obs * bin_width), color = "black", size = 1) +
   theme_minimal() +
   labs(
     title = "Distribución de Velocidades Registradas",

@@ -9,6 +9,10 @@ cat("\014") # Limpiar consola
 message(">>> INICIANDO EJECUCIÓN DEL PROYECTO GRUPO 2 - ANT VELOCIDAD <<<")
 start_time <- Sys.time()
 
+# 0. Configuración Inicial
+set.seed(123) # Para reproducibilidad futura en procesos estocásticos
+if (!dir.exists("reports")) dir.create("reports")
+
 # Rutas - Asumiendo que el Working Directory es la raiz del proyecto 'Proyecto/'
 # Si se ejecuta desde src/, ajustar. Se recomienda setwd() al proyecto.
 # setwd("...") # Opcional si no se corre desde proyecto rproj

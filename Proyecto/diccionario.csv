@@ -1,0 +1,20 @@
+variable,tipo,descripcion
+PROVINCIA_OPERADORA,factor,Provincia de la operadora
+CIUDAD_OPERADORA,character,Ciudad de la operadora
+IDENTIFICACION_OPERADORA,character,ID operadora
+TIPO_OPERADORA,factor,Tipo operadora
+LATITUD,numeric,Latitud evento
+LONGITUD,numeric,Longitud evento
+UBICACION_EXCESO,character,Ubicación textual
+CIUDAD_EXCESO,character,Ciudad evento
+PROVINCIA_EXCESO,factor,Provincia evento
+FECHA_ALERTA,character,Fecha original (texto)
+HORA_ALERTA,hms/difftime,Hora original (texto)
+VELOCIDAD,numeric,Velocidad registrada
+TIPO_EXCESO,factor,Tipo de exceso
+FECHA_ALERTA_DT,Date,Fecha formato Date
+HORA_ALERTA_NUM,integer,Hora formato entero
+hora,integer,Hora entero (duplicado)
+dia_num,numeric,Número de día (1=Lun)
+franja_horaria,factor,Franja horaria (cat)
+dia_semana,factor,Día de la semana (factor)

@@ -57,12 +57,17 @@ df_clean <- df_raw %>%
     PROVINCIA_EXCESO = as.factor(PROVINCIA_EXCESO)
   )
 
-# 5. Tratamiento de Faltantes
-# Eliminar filas sin VELOCIDAD (variable crítica)
+# 5. Tratamiento de Faltantes y Filtrado Temporal
+# Eliminar filas sin VELOCIDAD y eliminar outliers extremos (errores de GPS > 200km/h)
 n_antes <- nrow(df_clean)
-df_clean <- df_clean %>% filter(!is.na(VELOCIDAD))
+df_clean <- df_clean %>% 
+  filter(!is.na(VELOCIDAD)) %>%
+  filter(VELOCIDAD > 0 & VELOCIDAD <= 200) %>% # Filtrar velocidades inverosímiles
+  filter(FECHA_ALERTA_DT >= as.Date("2022-02-01") & FECHA_ALERTA_DT <= as.Date("2022-02-28"))
+
 n_despues <- nrow(df_clean)
-message("Filas eliminadas por falta de velocidad: ", n_antes - n_despues)
+message("Filas mantenidas (Velocidad válida 0-200km/h y Feb-2022): ", n_despues)
+message("Filas eliminadas (NA, outliers o fechas fuera de rango): ", n_antes - n_despues)
 
 # Marcar lat/long faltantes (no eliminar, solo advertir)
 n_missing_coords <- sum(is.na(df_clean$LATITUD) | is.na(df_clean$LONGITUD))
@@ -72,7 +77,7 @@ message("Registros con coordenadas faltantes (se mantienen para análisis no esp
 df_final <- df_clean %>%
   mutate(
     hora = HORA_ALERTA_NUM,
-    dia_semana = wday(FECHA_ALERTA_DT, label = TRUE, abbr = FALSE, locale = "es_ES"), # Lunes, Martes...
+    dia_num = wday(FECHA_ALERTA_DT, week_start = 1), # 1=Lunes, 7=Domingo
     franja_horaria = case_when(
       hora >= 0 & hora < 6 ~ "Madrugada",
       hora >= 6 & hora < 12 ~ "Mañana",
@@ -82,19 +87,31 @@ df_final <- df_clean %>%
     )
   ) %>%
   mutate(
-      franja_horaria = factor(franja_horaria, levels = c("Madrugada", "Mañana", "Tarde", "Noche"))
+      franja_horaria = factor(franja_horaria, levels = c("Madrugada", "Mañana", "Tarde", "Noche")),
+      dia_semana = factor(dia_num, levels = 1:7, labels = c("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"))
   )
 
 # 7. Generar Diccionario de Datos
+# Aseguramos que la extracción de tipos sea un vector de caracteres simple (maneja múltiples clases como "ordered/factor")
+tipos_col <- sapply(df_final, function(x) paste(class(x), collapse = "/"))
+
+descripcion_cols <- c(
+  "Provincia de la operadora", "Ciudad de la operadora", "ID operadora", "Tipo operadora",
+  "Latitud evento", "Longitud evento", "Ubicación textual", "Ciudad evento", "Provincia evento",
+  "Fecha original (texto)", "Hora original (texto)", "Velocidad registrada", "Tipo de exceso",
+  "Fecha formato Date", "Hora formato entero", "Hora entero (duplicado)", "Número de día (1=Lun)", "Franja horaria (cat)", "Día de la semana (factor)"
+)
+
+# Ajustar longitud si hay discrepancia (seguridad)
+if(length(descripcion_cols) < length(names(df_final))) {
+  descripcion_cols <- c(descripcion_cols, rep("Sin descripción", length(names(df_final)) - length(descripcion_cols)))
+}
+descripcion_cols <- descripcion_cols[1:length(names(df_final))]
+
 diccionario <- data.frame(
   variable = names(df_final),
-  tipo = sapply(df_final, class),
-  descripcion = c(
-    "Provincia de la operadora", "Ciudad de la operadora", "ID operadora", "Tipo operadora",
-    "Latitud evento", "Longitud evento", "Ubicación textual", "Ciudad evento", "Provincia evento",
-    "Fecha original (texto)", "Hora original (texto)", "Velocidad registrada", "Tipo de exceso",
-    "Fecha formato Date", "Hora formato entero", "Hora entero (duplicado)", "Día de la semana", "Franja horaria (cat)"
-  )[1:length(names(df_final))] # Ajustar longitud si varía
+  tipo = tipos_col,
+  descripcion = descripcion_cols
 )
 
 # 8. Exportar

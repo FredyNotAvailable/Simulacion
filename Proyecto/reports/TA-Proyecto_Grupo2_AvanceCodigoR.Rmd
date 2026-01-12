@@ -175,6 +175,48 @@ Los cuadros brillantes indican las "Horas Pico". Sabemos exactamente qué día y
 </div>
 </div>
 
+## E. Ubicaciones (Top Provincias)
+
+<div class="viz-container">
+
+<div class="viz-image">
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("../figures/ubicaciones.png")
+```
+</div>
+
+<div class="viz-text">
+
+## Regiones Críticas
+Identificamos las provincias dónde más se reportan excesos.
+
+**¿Qué observamos?**
+Vemos geográficamente dónde está el problema. Usualmente, provincias con grandes autopistas (como Guayas o Pichincha) encabezan la lista debido al mayor flujo vehicular.
+
+</div>
+</div>
+
+## F. Tipo de Transporte
+
+<div class="viz-container">
+
+<div class="viz-image">
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("../figures/tipo_transporte.png")
+```
+</div>
+
+<div class="viz-text">
+
+## Operadoras Involucradas
+Analizamos quiénes cometen las infracciones.
+
+**¿Qué observamos?**
+Podemos ver si el problema es generalizado o específico de ciertas cooperativas (Taxis, Buses Interprovinciales, Carga). Esto ayuda a dirigir las capacitaciones.
+
+</div>
+</div>
+
 
 
 # 3. Parámetros para la Simulación

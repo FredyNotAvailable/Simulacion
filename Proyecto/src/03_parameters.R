@@ -90,6 +90,38 @@ for(i in 1:nrow(probs_tipo)) {
   tabla_params <- bind_rows(tabla_params, fila)
 }
 
+# 2.5 Probabilidades por Tipo de Transporte (Operadora)
+probs_transporte <- df %>%
+  count(TIPO_OPERADORA) %>%
+  mutate(prop = n / sum(n))
+
+for(i in 1:nrow(probs_transporte)) {
+  fila <- data.frame(
+    parametro = paste0("Prob_Transporte_", make.names(probs_transporte$TIPO_OPERADORA[i])),
+    valor = round(probs_transporte$prop[i], 4),
+    unidad = "probabilidad",
+    descripcion = paste("Chance de que sea un", probs_transporte$TIPO_OPERADORA[i])
+  )
+  tabla_params <- bind_rows(tabla_params, fila)
+}
+
+# 2.6 Probabilidades por Ubicación (Top 3 Provincias)
+probs_provincia <- df %>%
+  count(PROVINCIA_EXCESO) %>%
+  mutate(prop = n / sum(n)) %>%
+  arrange(desc(prop)) %>%
+  head(3) # Solo Top 3 para no llenar la tabla
+
+for(i in 1:nrow(probs_provincia)) {
+  fila <- data.frame(
+    parametro = paste0("Prob_Provincia_", make.names(probs_provincia$PROVINCIA_EXCESO[i])),
+    valor = round(probs_provincia$prop[i], 4),
+    unidad = "probabilidad",
+    descripcion = paste("Chance de que ocurra en", probs_provincia$PROVINCIA_EXCESO[i])
+  )
+  tabla_params <- bind_rows(tabla_params, fila)
+}
+
 # 4. Exportar
 write_csv(tabla_params, params_path)
 

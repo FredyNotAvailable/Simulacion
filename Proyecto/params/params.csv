@@ -9,3 +9,8 @@ Velocidad_Mediana,103,km/h,Punto medio: La mitad de los conductores van más len
 Velocidad_DesvStd,4.7,km/h,"Caos: Si es alto, hay velocidades muy variadas (lentos y rápidos)."
 Prob_Tipo_CUARTA_CLASE,0.9473,probabilidad,Chance de que sea tipo CUARTA_CLASE (Ruteo)
 Prob_Tipo_PRIMERA_CLASE,0.0527,probabilidad,Chance de que sea tipo PRIMERA_CLASE (Ruteo)
+Prob_Transporte_INTER.PROVINCIAL,0.9036,probabilidad,Chance de que sea un INTER PROVINCIAL
+Prob_Transporte_INTRA.PROVINCIAL,0.0964,probabilidad,Chance de que sea un INTRA PROVINCIAL
+Prob_Provincia_TUNGURAHUA,0.1741,probabilidad,Chance de que ocurra en TUNGURAHUA
+Prob_Provincia_STO..DOMINGO,0.1143,probabilidad,Chance de que ocurra en STO. DOMINGO
+Prob_Provincia_LOS.RIOS,0.1026,probabilidad,Chance de que ocurra en LOS RIOS

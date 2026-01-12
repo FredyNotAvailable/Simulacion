@@ -99,4 +99,34 @@ p4 <- df %>%
 
 ggsave("figures/heatmap_hora_dia.png", plot = p4, width = 10, height = 6)
 
+# E. Ubicaciones (Provincia del Evento)
+p5 <- df %>%
+  count(PROVINCIA_EXCESO) %>%
+  top_n(10, n) %>% # Top 10 para no saturar
+  ggplot(aes(x = reorder(PROVINCIA_EXCESO, n), y = n, fill = PROVINCIA_EXCESO)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    title = "Top 10 Provincias con más Infracciones",
+    x = "Provincia",
+    y = "Cantidad de Eventos"
+  )
+ggsave("figures/ubicaciones.png", plot = p5, width = 8, height = 6)
+
+# F. Tipo de Transporte (Operadora)
+p6 <- df %>%
+  count(TIPO_OPERADORA) %>%
+  ggplot(aes(x = reorder(TIPO_OPERADORA, n), y = n, fill = TIPO_OPERADORA)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    title = "Infracciones por Tipo de Transporte",
+    x = "Tipo de Operadora",
+    y = "Cantidad"
+  ) +
+  scale_fill_brewer(palette = "Set3")
+ggsave("figures/tipo_transporte.png", plot = p6, width = 8, height = 5)
+
 message("Gráficos generados exitosamente en /figures")

@@ -25,15 +25,15 @@ if (!file.exists(raw_path)) {
 
 df_raw <- read_delim(
   file = raw_path,
-  delim = ";", # Asumiendo delimitador punto y coma común en LatAm, verificar si falla
+  delim = ";", 
   col_names = TRUE,
-  locale = locale(encoding = "UTF-8"), # Intentar UTF-8 primero
+  locale = locale(encoding = "ISO-8859-1"), # Probar Latin1 si UTF-8 falla en tildes (Manabí)
   show_col_types = FALSE
 )
 
 # Si la carga falla o tiene 1 sola columna, intentar con coma
 if (ncol(df_raw) <= 1) {
-  df_raw <- read_csv(raw_path, show_col_types = FALSE, locale = locale(encoding = "UTF-8"))
+  df_raw <- read_csv(raw_path, show_col_types = FALSE, locale = locale(encoding = "ISO-8859-1"))
 }
 
 message("Dimensiones originales: ", nrow(df_raw), " filas, ", ncol(df_raw), " columnas.")

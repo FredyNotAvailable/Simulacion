@@ -1,0 +1,143 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 10px;
+}
+
+h2 {
+    color: #e67e22;
+    margin-top: 30px;
+    border-left: 5px solid #e67e22;
+    padding-left: 10px;
+}
+
+.module-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+code {
+    background-color: #f0f0f0;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: #c0392b;
+}
+
+.note {
+    background-color: #e8f8f5;
+    border-left: 5px solid #1abc9c;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+/* Estilos para acordeones (detalles) */
+details {
+    margin-top: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    color: #2c3e50;
+    list-style: none;
+    /* Ocultar triángulo estándar en algunos navegadores */
+}
+
+summary:hover {
+    background-color: #e2e2e2;
+}
+
+summary::after {
+    content: '+';
+    float: right;
+    font-weight: bold;
+}
+
+details[open] summary::after {
+    content: '-';
+}
+
+details[open] summary {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.code-explanation {
+    padding: 10px 15px;
+    font-size: 0.95em;
+    border-left: 3px solid #3498db;
+    margin: 10px 0;
+    background-color: #fff;
+}
+
+.code-block {
+    background-color: #282c34;
+    color: #abb2bf;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    overflow-x: auto;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.comment {
+    color: #5c6370;
+    font-style: italic;
+}
+
+.keyword {
+    color: #c678dd;
+}
+
+.function {
+    color: #61afef;
+}
+
+.string {
+    color: #98c379;
+}
+
+.number {
+    color: #d19a66;
+}
+
+.justification {
+    background-color: #fff8e1;
+    /* Amarillo muy suave */
+    border-left: 4px solid #f1c40f;
+    padding: 10px 15px;
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.justification::before {
+    content: "💡 Por qué: ";
+    font-weight: bold;
+    color: #f39c12;
+    font-style: normal;
+}

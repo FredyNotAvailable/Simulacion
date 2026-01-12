@@ -51,31 +51,31 @@ tabla_params <- dplyr::bind_rows(
     parametro = "Tasa_Llegada_Global",
     valor = round(tasa_global_diaria, 2),
     unidad = "eventos/dia",
-    descripcion = "Promedio diario de alertas registradas"
+    descripcion = "Ritmo general: Cuántas infracciones ocurren en un día promedio."
   ),
   data.frame(
     parametro = paste0("Tasa_Llegada_", eventos_franja$franja_horaria),
     valor = round(eventos_franja$tasa_hora_promedio, 2),
     unidad = "eventos/hora",
-    descripcion = paste("Tasa promedio horaria en", eventos_franja$franja_horaria)
+    descripcion = paste("Ritmo específico: Cuántas ocurren por hora en la", eventos_franja$franja_horaria)
   ),
   data.frame(
     parametro = "Velocidad_Promedio",
     valor = round(vel_mean, 2),
     unidad = "km/h",
-    descripcion = "Media aritmética de velocidad"
+    descripcion = "El valor 'típico' de velocidad de los infractores."
   ),
   data.frame(
     parametro = "Velocidad_Mediana",
     valor = round(vel_median, 2),
     unidad = "km/h",
-    descripcion = "Mediana de velocidad"
+    descripcion = "Punto medio: La mitad de los conductores van más lento que esto."
   ),
   data.frame(
     parametro = "Velocidad_DesvStd",
     valor = round(vel_sd, 2),
     unidad = "km/h",
-    descripcion = "Desviación estándar de velocidad"
+    descripcion = "Caos: Si es alto, hay velocidades muy variadas (lentos y rápidos)."
   )
 )
 
@@ -85,7 +85,7 @@ for(i in 1:nrow(probs_tipo)) {
     parametro = paste0("Prob_Tipo_", make.names(probs_tipo$TIPO_EXCESO[i])),
     valor = round(probs_tipo$prop[i], 4),
     unidad = "probabilidad",
-    descripcion = paste("Probabilidad de exceso tipo", probs_tipo$TIPO_EXCESO[i])
+    descripcion = paste("Chance de que sea tipo", probs_tipo$TIPO_EXCESO[i], "(Ruteo)")
   )
   tabla_params <- bind_rows(tabla_params, fila)
 }

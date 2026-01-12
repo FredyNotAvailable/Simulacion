@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Técnica - Proyecto ANT</title>
+    <link rel="stylesheet" href="style_docs.css">
+</head>
+
+<body>
+
+    <h1>📄 Documentación del Código</h1>
+    <p>Explicación modular del pipeline y las decisiones técnicas tomadas.</p>
+
+    <!-- 00_run_all.R -->
+    <div class="module-card">
+        <h2>🛠️ 00_run_all.R (Orquestador)</h2>
+        <p>Controla la secuencia de ejecución de todo el proyecto.</p>
+
+        <details>
+            <summary>Ver Código</summary>
+
+            <div class="code-block">
+                <span class="keyword">rm</span>(list = <span class="function">ls</span>())
+            </div>
+            <div class="code-explanation">
+                <strong>Limpieza Inicial:</strong> Borra la memoria antes de empezar.
+            </div>
+            <div class="justification">
+                Evita que resultados de ejecuciones pasadas afecten a la actual (Reproducibilidad).
+            </div>
+
+            <div class="code-block">
+                <span class="function">source</span>(<span class="string">"src/01_load_clean.R"</span>)
+                ...
+            </div>
+            <div class="code-explanation">
+                <strong>Ejecución en Cascada:</strong> Llama a cada script en orden (Limpieza -> Viz -> Params ->
+                Checks).
+            </div>
+        </details>
+    </div>
+
+    <!-- 01_load_clean.R -->
+    <div class="module-card">
+        <h2>🧹 01_load_clean.R (Limpieza de Datos)</h2>
+        <p>Procesa los datos crudos y elimina errores.</p>
+
+        <details>
+            <summary>Ver Código</summary>
+
+            <div class="code-block">
+                <span class="function">filter</span>(VELOCIDAD > <span class="number">0</span> & VELOCIDAD <= <span
+                    class="number">200</span>)
+            </div>
+            <div class="code-explanation">
+                <strong>Filtro de Velocidad:</strong> Solo permite valores entre 0 y 200 km/h.
+            </div>
+            <div class="justification">
+                Velocidades mayores a 200 km/h son físicamente imposibles para buses y distorsionan la simulación.
+            </div>
+
+            <div class="code-block">
+                <span class="function">filter</span>(FECHA >= <span class="string">"2022-02-01"</span> & FECHA <= <span
+                    class="string">"2022-02-28"</span>)
+            </div>
+            <div class="code-explanation">
+                <strong>Filtro de Fecha:</strong> Solo mantiene datos de Febrero.
+            </div>
+            <div class="justification">
+                Necesitamos un mes completo exacto para calcular correctamente el parámetro "Tasa de Llegada Diaria".
+            </div>
+
+            <div class="code-block">
+                franja = <span class="function">case_when</span>(...)
+            </div>
+            <div class="code-explanation">
+                <strong>Creación de Franjas:</strong> Agrupa horas en Mañana/Tarde/Noche.
+            </div>
+            <div class="justification">
+                Simplifica la configuración de "Sources" en la simulación (4 tasas en lugar de 24).
+            </div>
+        </details>
+    </div>
+
+    <!-- 02_visualizations.R -->
+    <div class="module-card">
+        <h2>📊 02_visualizations.R (Gráficos)</h2>
+        <p>Genera las figuras para el reporte.</p>
+
+        <details>
+            <summary>Ver Código</summary>
+
+            <div class="code-block">
+                <span class="function">geom_histogram</span>() + <span class="function">geom_density</span>()
+            </div>
+            <div class="code-explanation">
+                <strong>Histograma + Densidad:</strong> Muestra la distribución de velocidades.
+            </div>
+            <div class="justification">
+                Permite verificar visualmente si los datos siguen una distribución Normal u otra, clave para el
+                modelado.
+            </div>
+        </details>
+    </div>
+
+    <!-- 03_parameters.R -->
+    <div class="module-card">
+        <h2>🧮 03_parameters.R (Cálculos)</h2>
+        <p>Obtiene los números para configurar el simulador.</p>
+
+        <details>
+            <summary>Ver Código</summary>
+
+            <div class="code-block">
+                lambda = <span class="function">nrow</span>(df) / n_dias
+            </div>
+            <div class="code-explanation">
+                <strong>Tasa Lambda:</strong> Promedio de eventos por día.
+            </div>
+            <div class="justification">
+                Input obligatorio para configurar la frecuencia de generación de entidades en Simio/Arena.
+            </div>
+
+            <div class="code-block">
+                probs = <span class="function">count</span>(TIPO) / total
+            </div>
+            <div class="code-explanation">
+                <strong>Probabilidades:</strong> % de cada tipo de infracción.
+            </div>
+            <div class="justification">
+                Se usa en los nodos de decisión (Ruteo estocástico) para clasificar entidades.
+            </div>
+        </details>
+    </div>
+
+    <!-- 04_checks.R -->
+    <div class="module-card">
+        <h2>✅ 04_checks.R (Validación)</h2>
+        <p>Asegura que los datos sean correctos.</p>
+
+        <details>
+            <summary>Ver Código</summary>
+
+            <div class="code-block">
+                <span class="keyword">if</span> (v_max > <span class="number">200</span>) <span
+                    class="function">stop</span>()
+            </div>
+            <div class="code-explanation">
+                <strong>Freno de Emergencia:</strong> Detiene todo si hay errores graves.
+            </div>
+            <div class="justification">
+                Garantiza que no simulemos con datos basura ("Garbage In, Garbage Out").
+            </div>
+        </details>
+    </div>
+
+</body>
+
+</html>
